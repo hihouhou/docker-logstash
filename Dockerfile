@@ -9,17 +9,20 @@ FROM debian:latest
 
 MAINTAINER hihouhou < hihouhou@hihouhou.com >
 
-ENV LOGSTASH_VERSION logstash_1.5.4-1
+ENV LOGSTASH_VERSION 7.11.0
 
-# Update & install packages for graylog
+# Update & install packages for logstash
 RUN apt-get update && \
-    apt-get install -y wget dpkg-dev logrotate openjdk-7-jre
-RUN wget https://download.elastic.co/logstash/logstash/packages/debian/logstash_1.5.4-1_all.deb && \
-    dpkg -i ${LOGSTASH_VERSION}_all.deb
+    apt-get install -y wget dpkg-dev logrotate openjdk-11-jre
 
-#Configure graylog
-ADD logstash-simple.conf /etc/logstash/
+#Install logstash
+RUN wget https://artifacts.elastic.co/downloads/logstash/logstash-${LOGSTASH_VERSION}-amd64.deb && \
+    dpkg -i logstash-${LOGSTASH_VERSION}-amd64.deb && \
+    usermod -u 1000 logstash
 
-WORKDIR /etc/logstash/
+#Configure logstash
+ADD logstash.yml /etc/logstash/logstash.yml
 
-CMD ["/opt/logstash/bin/logstash", "-f", "logstash-simple.conf"]
+USER logstash
+
+CMD ["/usr/share/logstash/bin/logstash", "-f", "/etc/logstash/logstash.yml"]
