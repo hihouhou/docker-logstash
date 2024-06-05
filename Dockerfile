@@ -9,7 +9,7 @@ FROM debian:latest
 
 MAINTAINER hihouhou < hihouhou@hihouhou.com >
 
-ENV LOGSTASH_VERSION v8.13.4
+ENV LOGSTASH_VERSION v8.14.0
 
 # Update & install packages for logstash
 RUN apt-get update && \
