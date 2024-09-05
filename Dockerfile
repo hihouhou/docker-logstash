@@ -9,7 +9,7 @@ FROM debian:latest
 
 LABEL org.opencontainers.image.authors="hihouhou < hihouhou@hihouhou.com >"
 
-ENV LOGSTASH_VERSION=v8.15.0
+ENV LOGSTASH_VERSION=v8.15.1
 
 # Update & install packages for logstash
 RUN apt-get update && \
